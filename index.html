@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Расписание занятий</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+        font-family: 'Inter', -apple-system, sans-serif;
+        background: #f4f7f1;
+        background-image:
+            radial-gradient(circle at 10% 0%, rgba(139,175,120,0.15), transparent 40%),
+            radial-gradient(circle at 90% 100%, rgba(139,175,120,0.12), transparent 45%);
+        background-attachment: fixed;
+        margin: 0;
+        padding: 12px;
+        color: #2d3a26;
+        min-height: 100vh;
+        line-height: 1.5;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 18px;
+        background: rgba(255,255,255,0.6);
+        backdrop-filter: blur(8px);
+        border-radius: 24px;
+        border: 1px solid rgba(139,175,120,0.2);
+    }
+
+    /* ---- ЗАГОЛОВКИ ---- */
+    h1 {
+        font-family: 'Playfair Display', serif;
+        text-align: center;
+        font-size: 26px;
+        font-weight: 600;
+        color: #4a6b3d;
+        margin: 0 0 6px 0;
+        letter-spacing: 0.5px;
+    }
+    .subtitle {
+        text-align: center;
+        font-size: 12px;
+        letter-spacing: 3px;
+        color: #7d9670;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    /* ---- ВЕРХНЯЯ ПАНЕЛЬ ---- */
+    .topbar {
+        display: flex; justify-content: space-between; align-items: flex-start;
+        gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .topbar > div:first-child { flex: 1; min-width: 200px; }
+
+    .admin-btn {
+        padding: 11px 20px;
+        background: #8baf78;
+        color: #ffffff;
+        border: none;
+        border-radius: 24px;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(139,175,120,0.35);
+        transition: all 0.25s;
+    }
+    .admin-btn:hover {
+        background: #7a9d67;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(139,175,120,0.5);
+    }
+    .admin-btn.exit {
+        background: transparent;
+        color: #8baf78;
+        border: 1.5px solid #8baf78;
+        box-shadow: none;
+    }
+    .admin-btn.exit:hover {
+        background: rgba(139,175,120,0.1);
+    }
+
+    /* ---- КНОПКИ ДНЕЙ ---- */
+    .days-nav {
+        display: flex; gap: 8px; margin-bottom: 16px;
+        overflow-x: auto; padding-bottom: 4px;
+        justify-content: flex-start;
+    }
+    .days-nav::-webkit-scrollbar { display: none; }
+    .day-btn {
+        flex: 0 0 auto;
+        min-width: 52px;
+        padding: 10px 14px;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: #ffffff;
+        color: #7d9670;
+        border: 1.5px solid #d8e5cf;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.25s;
+    }
+    .day-btn:hover {
+        border-color: #8baf78;
+        color: #4a6b3d;
+        transform: translateY(-1px);
+    }
+    .day-btn.active {
+        background: #8baf78;
+        color: #ffffff;
+        border-color: #8baf78;
+        box-shadow: 0 4px 14px rgba(139,175,120,0.4);
+    }
+
+    /* ---- ВЫБОР ГРУППЫ ---- */
+    .controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #7d9670;
+    }
+    select, input {
+        padding: 13px 16px;
+        font-family: 'Inter', sans-serif;
+        font-size: 15px;
+        background: #ffffff;
+        color: #2d3a26;
+        border: 1.5px solid #d8e5cf;
+        border-radius: 14px;
+        outline: none;
+        width: 100%;
+        transition: all 0.25s;
+        font-weight: 500;
+    }
+    select:focus, input:focus {
+        border-color: #8baf78;
+        box-shadow: 0 0 0 4px rgba(139,175,120,0.15);
+    }
+    select {
+        -webkit-appearance: none; appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238baf78' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 16px;
+        padding-right: 42px;
+        cursor: pointer;
+    }
+
+    /* ---- МОБИЛЬНЫЕ КАРТОЧКИ ---- */
+    .cards-list { display: block; }
+    .lesson-card {
+        background: #ffffff;
+        border: 1px solid #e8f0e2;
+        border-radius: 20px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(74,107,61,0.06);
+        transition: all 0.25s;
+    }
+    .lesson-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(74,107,61,0.12);
+    }
+    .lesson-card .top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 16px;
+        background: linear-gradient(135deg, #eaf3e4 0%, #f4f9f0 100%);
+        border-bottom: 1px solid #e8f0e2;
+    }
+    .lesson-card .num-badge {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: #8baf78;
+        min-width: 34px;
+        text-align: center;
+        line-height: 1;
+    }
+    .lesson-card .cab-badge {
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #4a6b3d;
+        background: #ffffff;
+        border: 1px solid #d8e5cf;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+    .lesson-card .subject-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #4a6b3d;
+        flex: 1;
+        text-align: right;
+        word-break: break-word;
+        line-height: 1.25;
+    }
+    .lesson-card .body {
+        padding: 14px 16px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 16px;
+    }
+    .lesson-card .field { display: flex; flex-direction: column; gap: 3px; }
+    .lesson-card .lbl {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #9daf93;
+        font-weight: 600;
+    }
+    .lesson-card .val {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2d3a26;
+        word-break: break-word;
+    }
+    .lesson-card .val.group {
+        color: #5d8a47;
+        font-weight: 700;
+    }
+
+    /* ---- ДЕСКТОПНАЯ ТАБЛИЦА ---- */
+    .desktop-wrapper { display: none; }
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(74,107,61,0.08);
+        border: 1px solid #e8f0e2;
+    }
+    th, td {
+        padding: 14px 12px;
+        text-align: left;
+        vertical-align: top;
+        font-size: 13px;
+        color: #2d3a26;
+        border-bottom: 1px solid #eff5ea;
+    }
+    th {
+        background: linear-gradient(135deg, #8baf78 0%, #7a9d67 100%);
+        color: #ffffff;
+        text-align: center;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 11px;
+        border-bottom: none;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: #fafcf8; }
+    tr:hover td { background: #f4f9f0; }
+    .cab-cell {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        text-align: center;
+        width: 70px;
+        color: #5d8a47;
+        font-size: 16px;
+    }
+    .prep-cell {
+        font-weight: 600;
+        width: 170px;
+        color: #4a6b3d;
+    }
+    .group-name {
+        font-weight: 700;
+        color: #5d8a47;
+        display: block;
+        margin-bottom: 3px;
+    }
+    .subject { color: #7d9670; font-size: 12px; }
+    .empty { color: #c5d4bb; font-style: italic; text-align: center; }
+
+    /* ---- АДМИНКА ---- */
+    .admin-panel {
+        display: none;
+        background: #ffffff;
+        border: 2px dashed #b8d0a8;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(74,107,61,0.08);
+    }
+    .admin-panel.active { display: block; }
+    .admin-panel h2 {
+        font-family: 'Playfair Display', serif;
+        margin: 0 0 16px 0;
+        font-size: 18px;
+        color: #4a6b3d;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e8f0e2;
+        font-weight: 600;
+    }
+    .admin-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+    .admin-grid label {
+        font-size: 11px;
+        color: #7d9670;
+        display: block;
+        margin-bottom: 5px;
+    }
+    .admin-grid input, .admin-grid select {
+        padding: 11px 14px;
+        font-size: 14px;
+        background: #fafcf8;
+        border: 1.5px solid #d8e5cf;
+        border-radius: 12px;
+        color: #2d3a26;
+    }
+    .admin-grid input:focus, .admin-grid select:focus {
+        background: #ffffff;
+        border-color: #8baf78;
+    }
+    .admin-grid .full { grid-column: 1 / -1; }
+    .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 20px;
+        font-family: 'Inter', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        flex: 1 1 auto;
+        transition: all 0.25s;
+    }
+    .btn-primary {
+        background: #8baf78;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(139,175,120,0.35);
+    }
+    .btn-primary:hover {
+        background: #7a9d67;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(139,175,120,0.5);
+    }
+    .btn-secondary {
+        background: #ffffff;
+        color: #5d8a47;
+        border: 1.5px solid #8baf78;
+    }
+    .btn-secondary:hover {
+        background: #f4f9f0;
+    }
+    .btn-warning {
+        background: #ffffff;
+        color: #8baf78;
+        border: 1.5px solid #d8e5cf;
+    }
+    .btn-warning:hover {
+        background: #f4f9f0;
+        border-color: #8baf78;
+    }
+    .btn-danger {
+        background: #ffffff;
+        color: #c96a5a;
+        border: 1.5px solid #f0c8c0;
+    }
+    .btn-danger:hover {
+        background: #fdf3f1;
+        border-color: #c96a5a;
+    }
+
+    .edit-list { margin-top: 16px; }
+    .edit-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        background: #fafcf8;
+        border: 1px solid #e8f0e2;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        gap: 10px;
+        color: #5d6b54;
+        transition: all 0.2s;
+    }
+    .edit-item:hover {
+        background: #f4f9f0;
+        border-color: #d8e5cf;
+    }
+    .edit-item-info { flex: 1; line-height: 1.5; }
+    .edit-item-info b { color: #4a6b3d; font-weight: 700; }
+    .edit-item-del {
+        background: transparent;
+        color: #c96a5a;
+        border: 1.5px solid #f0c8c0;
+        border-radius: 12px;
+        padding: 7px 14px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        transition: all 0.2s;
+    }
+    .edit-item-del:hover {
+        background: #fdf3f1;
+        border-color: #c96a5a;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 50px 20px;
+        color: #9daf93;
+        font-family: 'Playfair Display', serif;
+        font-size: 17px;
+        font-style: italic;
+    }
+    .hidden { display: none !important; }
+
+    /* ---- МОДАЛКА ---- */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(45,58,38,0.5);
+        backdrop-filter: blur(6px);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    .modal.active { display: flex; }
+    .modal-box {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 28px;
+        max-width: 380px;
+        width: 100%;
+        box-shadow: 0 20px 60px rgba(45,58,38,0.25);
+        border: 1px solid #e8f0e2;
+    }
+    .modal-box h3 {
+        font-family: 'Playfair Display', serif;
+        margin: 0 0 18px 0;
+        font-size: 20px;
+        color: #4a6b3d;
+        text-align: center;
+        font-weight: 600;
+    }
+    .modal-box input { margin-bottom: 16px; }
+    .modal-actions { display: flex; gap: 10px; }
+    .modal-actions .btn { flex: 1; }
+
+    /* ---- ДЕСКТОП ---- */
+    @media (min-width: 769px) {
+        body { padding: 24px; }
+        .container { padding: 32px; }
+        h1 { font-size: 34px; }
+        .subtitle { font-size: 13px; }
+        .cards-list { display: none; }
+        .desktop-wrapper { display: block; }
+        .days-nav { justify-content: center; overflow: visible; }
+        .admin-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        .admin-actions .btn { flex: 0 1 auto; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="topbar">
+        <div>
+            <h1>Расписание занятий</h1>
+            <div class="subtitle" id="dateSubtitle">—</div>
+        </div>
+        <div>
+            <button class="admin-btn" id="loginBtn" type="button">Админ</button>
+            <button class="admin-btn exit hidden" id="logoutBtn" type="button">Выйти</button>
+        </div>
+    </div>
+
+    <div class="days-nav" id="daysNav">
+        <button class="day-btn" data-day="monday" type="button">Пн</button>
+        <button class="day-btn" data-day="tuesday" type="button">Вт</button>
+        <button class="day-btn active" data-day="wednesday" type="button">Ср</button>
+        <button class="day-btn" data-day="thursday" type="button">Чт</button>
+        <button class="day-btn" data-day="friday" type="button">Пт</button>
+        <button class="day-btn" data-day="saturday" type="button">Сб</button>
+    </div>
+
+    <div class="admin-panel" id="adminPanel">
+        <h2>Добавить занятие</h2>
+        <div class="admin-grid">
+            <div>
+                <label>Номер пары</label>
+                <select id="inpPara">
+                    <option value="0">1 пара</option>
+                    <option value="1">2 пара</option>
+                    <option value="2">3 пара</option>
+                    <option value="3">4 пара</option>
+                </select>
+            </div>
+            <div>
+                <label>Кабинет</label>
+                <input type="text" id="inpCab" placeholder="213">
+            </div>
+            <div class="full">
+                <label>Предмет</label>
+                <input type="text" id="inpSubject" placeholder="ОТ">
+            </div>
+            <div>
+                <label>Группа</label>
+                <input type="text" id="inpGroup" placeholder="12-ПС-25">
+            </div>
+            <div>
+                <label>Преподаватель</label>
+                <input type="text" id="inpPrep" placeholder="Блинов А.В.">
+            </div>
+        </div>
+        <div class="admin-actions">
+            <button class="btn btn-primary" id="addBtn" type="button">Добавить</button>
+            <button class="btn btn-warning" id="exportBtn" type="button">Экспорт</button>
+            <button class="btn btn-secondary" id="importBtn" type="button">Импорт</button>
+            <button class="btn btn-danger" id="clearBtn" type="button">Очистить</button>
+            <input type="file" id="importFile" accept=".json" style="display:none">
+        </div>
+        <h2 style="margin-top:22px;">Занятия на день</h2>
+        <div class="edit-list" id="editList"></div>
+    </div>
+
+    <div class="controls">
+        <label for="groupSelect">Выберите группу</label>
+        <select id="groupSelect">
+            <option value="all">Все группы</option>
+        </select>
+    </div>
+
+    <div class="cards-list" id="mobileCards"></div>
+
+    <div class="desktop-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>№ каб.</th>
+                    <th>Ф.И.О.</th>
+                    <th>1 пара</th>
+                    <th>2 пара</th>
+                    <th>3 пара</th>
+                    <th>4 пара</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <div id="noResults" class="no-results hidden">На этот день занятий нет</div>
+</div>
+
+<div class="modal" id="loginModal">
+    <div class="modal-box">
+        <h3>Вход администратора</h3>
+        <input type="password" id="passwordInput" placeholder="Пароль">
+        <div class="modal-actions">
+            <button class="btn btn-primary" id="confirmLogin" type="button">Войти</button>
+            <button class="btn btn-danger" id="cancelLogin" type="button">Отмена</button>
+        </div>
+    </div>
+</div>
+
+<script>
+var ADMIN_PASSWORD = 'admin123';
+var STORAGE_KEY = 'schedule_data_v1';
+var dayNames = {
+    monday: 'Понедельник', tuesday: 'Вторник', wednesday: 'Среда',
+    thursday: 'Четверг', friday: 'Пятница', saturday: 'Суббота'
+};
+
+var INITIAL_DATA = {
+    monday: [], tuesday: [],
+    wednesday: [
+        { cab: '213', prep: 'Блинов А.В.', lessons: [
+            { group: '12-ПС-25', subject: 'ОТ' },
+            { group: '14-ЭО-25', subject: 'ОТ' },
+            { group: '14-ЭО-25', subject: 'МДК.05.01' },
+            { group: '14-ЭО-25', subject: 'МДК.05.01' }
+        ]},
+        { cab: '204', prep: 'Вербицкая О.В.', lessons: [
+            null,
+            { group: '12-ПС-25', subject: 'ОМЗ' },
+            { group: '12-ПС-25', subject: 'ОМЗ' },
+            { group: '6-ЛК-25', subject: 'ОМЗ' }
+        ]},
+        { cab: '118', prep: 'Галицкая Н.К.', lessons: [
+            { group: '14-ЭО-26', subject: 'математика' },
+            { group: '14-ЭО-26', subject: 'математика' },
+            { group: '14-ЭО-26', subject: 'математика' },
+            null
+        ]},
+        { cab: '304', prep: 'Щербакова Л.В.', lessons: [
+            { group: '6-ЛК-25', subject: 'история России' },
+            { group: '11-ИК-25', subject: 'история России' },
+            { group: '6-ЛК-26', subject: 'история' },
+            { group: '3-ЭМС-25', subject: 'история России' }
+        ]},
+        { cab: '306', prep: 'Глухова Н.И.', lessons: [
+            { group: '19-АТ-26', subject: 'обществознание' },
+            { group: '3-ЭМС-25', subject: 'обществознание' },
+            { group: '11-ИК-26', subject: 'обществознание' },
+            { group: '1-ОИС-25', subject: 'обществознание' }
+        ]},
+        { cab: '408', prep: 'Гугняева И.О.', lessons: [
+            { group: '11-ИК-25', subject: 'осн.инж.графики' },
+            { group: '11-ИК-24', subject: 'МДК.01.04' },
+            { group: '3-ЭМС-25', subject: 'МДК.01.01' },
+            { group: '11-ИК-24', subject: 'МДК.01.04' }
+        ]},
+        { cab: '217', prep: 'Желтяков В.С.', lessons: [
+            { group: '3-ЭМС-26', subject: 'физика' },
+            { group: '3-ЭМС-26', subject: 'физика' },
+            { group: '12-ПС-26', subject: 'физика' },
+            { group: '11-ИК-26', subject: 'физика' }
+        ]},
+        { cab: '212', prep: 'Маврин В.Н.', lessons: [
+            { group: '14-ЭО-25', subject: 'метрология' },
+            { group: '14-ЭО-24', subject: 'эл.машины' },
+            { group: '14-ЭО-24', subject: 'МДК.01.01' },
+            { group: '14-ЭО-24', subject: 'МДК.01.01' }
+        ]},
+        { cab: '110', prep: 'Майданенко Е.В.', lessons: [
+            { group: '1-ОИС-25', subject: 'ДОУ' },
+            { group: '1-ОИС-25', subject: 'ДОУ' },
+            { group: '12-ПС-24', subject: 'МДК.02.01' },
+            { group: '12-ПС-24', subject: 'МДК.02.01' }
+        ]},
+        { cab: '405', prep: 'Машарова М.В.', lessons: [
+            { group: '6-ЛК-26', subject: 'химия' },
+            { group: '6-ЛК-26', subject: 'химия' },
+            { group: '1-ОИС-26', subject: 'химия' },
+            { group: '3-ЭМС-26', subject: 'химия' }
+        ]},
+        { cab: '302', prep: 'Назармамбетов М.Д.', lessons: [
+            { group: '12-ПС-24', subject: 'ИТвПД' },
+            { group: '12-ПС-26', subject: 'информатика' },
+            { group: '1-ОИС-25', subject: 'база данных' },
+            { group: '6-ЛК-26', subject: 'информатика' }
+        ]},
+        { cab: '202', prep: 'Прозорова О.В.', lessons: [
+            { group: '11-ИК-26', subject: 'литература' },
+            { group: '19-АТ-26', subject: 'литература' },
+            { group: '3-ЭМС-26', subject: 'литература' },
+            { group: '12-ПС-26', subject: 'рус.язык' }
+        ]},
+        { cab: '402', prep: 'Родионова М.А.', lessons: [
+            { group: '12-ПС-26', subject: 'ОПД' },
+            { group: '12-ПС-24', subject: 'эконом.организ' },
+            { group: '11-ИК-24', subject: 'осн.бер.произв' },
+            { group: '1-ОИС-26', subject: 'ОПД' }
+        ]},
+        { cab: '308', prep: 'Савченко О.В.', lessons: [
+            { group: '1-ОИС-26', subject: 'математика' },
+            { group: '6-ЛК-25', subject: 'математика' },
+            { group: '19-АТ-26', subject: 'математика' },
+            { group: '19-АТ-26', subject: 'математика' }
+        ]},
+        { cab: '312', prep: 'Несякина М.В.', lessons: [
+            { group: '3-ЭМС-25', subject: 'эл.техника' },
+            { group: '11-ИК-26', subject: 'информатика' },
+            { group: '11-ИК-25', subject: 'осн.телеком' },
+            { group: '11-ИК-25', subject: 'ТЭС' }
+        ]},
+        { cab: '407', prep: 'Тимкова И.А.', lessons: [
+            { group: '6-ЛК-24', subject: 'УП' },
+            { group: '6-ЛК-24', subject: 'УП' },
+            { group: '6-ЛК-24', subject: 'УП' },
+            null
+        ]},
+        { cab: '411', prep: 'Лебедева А.И.', lessons: [
+            { group: '11-ИК-24', subject: 'ин.язык' },
+            { group: '1-ОИС-26', subject: 'ин.язык' },
+            { group: '6-ЛК-25', subject: 'ин.язык' },
+            { group: '14-ЭО-26', subject: 'ин.язык' }
+        ]},
+        { cab: '414', prep: 'Пенькова А.А.', lessons: [
+            { group: '11-ИК-24', subject: 'ин.язык' },
+            { group: '1-ОИС-26', subject: 'ин.язык' },
+            { group: '6-ЛК-25', subject: 'ин.язык' },
+            { group: '14-ЭО-26', subject: 'ин.язык' }
+        ]}
+    ],
+    thursday: [], friday: [], saturday: []
+};
+
+function loadData() {
+    try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+    } catch(e) {}
+    return JSON.parse(JSON.stringify(INITIAL_DATA));
+}
+function saveData(data) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+    catch(e) { alert('Ошибка сохранения: ' + e.message); }
+}
+
+var schedule = loadData();
+var currentDay = 'wednesday';
+var currentGroup = 'all';
+var isAdmin = false;
+
+var daysNav = document.getElementById('daysNav');
+var groupSelect = document.getElementById('groupSelect');
+var tableBody = document.getElementById('tableBody');
+var mobileCards = document.getElementById('mobileCards');
+var noResults = document.getElementById('noResults');
+var dateSubtitle = document.getElementById('dateSubtitle');
+var adminPanel = document.getElementById('adminPanel');
+var editList = document.getElementById('editList');
+var loginBtn = document.getElementById('loginBtn');
+var logoutBtn = document.getElementById('logoutBtn');
+var loginModal = document.getElementById('loginModal');
+
+function getAllGroups() {
+    var groups = [];
+    var seen = {};
+    for (var dayKey in schedule) {
+        (schedule[dayKey] || []).forEach(function(row) {
+            (row.lessons || []).forEach(function(l) {
+                if (l && l.group && !seen[l.group]) {
+                    seen[l.group] = true;
+                    groups.push(l.group);
+                }
+            });
+        });
+    }
+    groups.sort();
+    return groups;
+}
+
+function fillGroupSelect() {
+    var current = groupSelect.value;
+    groupSelect.innerHTML = '<option value="all">Все группы</option>';
+    getAllGroups().forEach(function(g) {
+        var o = document.createElement('option');
+        o.value = g;
+        o.textContent = g;
+        groupSelect.appendChild(o);
+    });
+    for (var i = 0; i < groupSelect.options.length; i++) {
+        if (groupSelect.options[i].value === current) {
+            groupSelect.value = current;
+            break;
+        }
+    }
+}
+
+function render() {
+    var dayData = schedule[currentDay] || [];
+    tableBody.innerHTML = '';
+    mobileCards.innerHTML = '';
+    dateSubtitle.textContent = dayNames[currentDay];
+    var hasVisible = false;
+
+    var allLessons = [];
+    dayData.forEach(function(row) {
+        (row.lessons || []).forEach(function(lesson, i) {
+            if (!lesson) return;
+            if (currentGroup !== 'all' && lesson.group !== currentGroup) return;
+            allLessons.push({
+                para: i + 1,
+                cab: row.cab,
+                prep: row.prep,
+                group: lesson.group,
+                subject: lesson.subject
+            });
+        });
+    });
+    allLessons.sort(function(a, b) { return a.para - b.para; });
+
+    allLessons.forEach(function(l) {
+        hasVisible = true;
+        var card = document.createElement('div');
+        card.className = 'lesson-card';
+        card.innerHTML =
+            '<div class="top">' +
+                '<div class="num-badge">' + l.para + '</div>' +
+                '<div class="cab-badge">каб. ' + l.cab + '</div>' +
+                '<div class="subject-title">' + l.subject + '</div>' +
+            '</div>' +
+            '<div class="body">' +
+                '<div class="field">' +
+                    '<span class="lbl">Группа</span>' +
+                    '<span class="val group">' + l.group + '</span>' +
+                '</div>' +
+                '<div class="field">' +
+                    '<span class="lbl">Преподаватель</span>' +
+                    '<span class="val">' + l.prep + '</span>' +
+                '</div>' +
+            '</div>';
+        mobileCards.appendChild(card);
+    });
+
+    dayData.forEach(function(row) {
+        var rowHasGroup = currentGroup === 'all' ||
+            (row.lessons || []).some(function(l) { return l && l.group === currentGroup; });
+        if (!rowHasGroup) return;
+
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+            '<td class="cab-cell">' + (row.cab || '') + '</td>' +
+            '<td class="prep-cell">' + (row.prep || '') + '</td>';
+
+        for (var i = 0; i < 4; i++) {
+            var td = document.createElement('td');
+            var lesson = row.lessons ? row.lessons[i] : null;
+            if (!lesson || (currentGroup !== 'all' && lesson.group !== currentGroup)) {
+                td.innerHTML = '<span class="empty">—</span>';
+            } else {
+                td.innerHTML = '<span class="group-name">' + lesson.group + '</span>' +
+                               '<span class="subject">' + lesson.subject + '</span>';
+            }
+            tr.appendChild(td);
+        }
+        tableBody.appendChild(tr);
+    });
+
+    if (hasVisible) noResults.classList.add('hidden');
+    else noResults.classList.remove('hidden');
+
+    if (isAdmin) renderEditList();
+}
+
+function renderEditList() {
+    var dayData = schedule[currentDay] || [];
+    editList.innerHTML = '';
+    if (dayData.length === 0) {
+        editList.innerHTML = '<div style="color:#9daf93;font-size:13px;text-align:center;padding:12px;font-style:italic;">Пока пусто</div>';
+        return;
+    }
+    dayData.forEach(function(row, rowIndex) {
+        var item = document.createElement('div');
+        item.className = 'edit-item';
+        var lessonsText = (row.lessons || []).map(function(l, i) {
+            return l ? (i + 1) + ') ' + l.group + ' — ' + l.subject : (i + 1) + ') —';
+        }).join(' | ');
+        item.innerHTML =
+            '<div class="edit-item-info">' +
+                '<b>' + (row.prep || '—') + '</b> (каб. ' + (row.cab || '—') + ')<br>' +
+                '<span style="font-size:12px;">' + lessonsText + '</span>' +
+            '</div>' +
+            '<button class="edit-item-del" data-index="' + rowIndex + '" type="button">Удалить</button>';
+        editList.appendChild(item);
+    });
+    var delBtns = editList.querySelectorAll('.edit-item-del');
+    for (var i = 0; i < delBtns.length; i++) {
+        delBtns[i].addEventListener('click', function(e) {
+            var idx = parseInt(e.target.getAttribute('data-index'), 10);
+            if (confirm('Удалить эту строку?')) {
+                schedule[currentDay].splice(idx, 1);
+                saveData(schedule);
+                render();
+                fillGroupSelect();
+            }
+        });
+    }
+}
+
+document.getElementById('addBtn').addEventListener('click', function() {
+    var para = parseInt(document.getElementById('inpPara').value, 10);
+    var cab = document.getElementById('inpCab').value.trim();
+    var subject = document.getElementById('inpSubject').value.trim();
+    var group = document.getElementById('inpGroup').value.trim();
+    var prep = document.getElementById('inpPrep').value.trim();
+
+    if (!cab || !subject || !group || !prep) {
+        alert('Заполните все поля');
+        return;
+    }
+
+    if (!schedule[currentDay]) schedule[currentDay] = [];
+    var dayData = schedule[currentDay];
+
+    var row = null;
+    for (var i = 0; i < dayData.length; i++) {
+        if (dayData[i].cab === cab && dayData[i].prep === prep) {
+            row = dayData[i];
+            break;
+        }
+    }
+    if (!row) {
+        row = { cab: cab, prep: prep, lessons: [null, null, null, null] };
+        dayData.push(row);
+    }
+    row.lessons[para] = { group: group, subject: subject };
+
+    saveData(schedule);
+    render();
+    fillGroupSelect();
+
+    document.getElementById('inpSubject').value = '';
+    document.getElementById('inpGroup').value = '';
+    document.getElementById('inpCab').focus();
+});
+
+document.getElementById('exportBtn').addEventListener('click', function() {
+    var blob = new Blob([JSON.stringify(schedule, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'raspisanie_' + new Date().toISOString().slice(0, 10) + '.json';
+    a.click();
+});
+
+document.getElementById('importBtn').addEventListener('click', function() {
+    document.getElementById('importFile').click();
+});
+
+document.getElementById('importFile').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        try {
+            var data = JSON.parse(ev.target.result);
+            if (confirm('Заменить текущее расписание?')) {
+                schedule = data;
+                saveData(schedule);
+                render();
+                fillGroupSelect();
+            }
+        } catch(err) { alert('Ошибка файла: ' + err.message); }
+    };
+    reader.readAsText(file);
+});
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+    if (confirm('Очистить всё расписание на ' + dayNames[currentDay] + '?')) {
+        schedule[currentDay] = [];
+        saveData(schedule);
+        render();
+    }
+});
+
+loginBtn.addEventListener('click', function() {
+    loginModal.classList.add('active');
+    document.getElementById('passwordInput').value = '';
+    setTimeout(function() { document.getElementById('passwordInput').focus(); }, 100);
+});
+
+document.getElementById('cancelLogin').addEventListener('click', function() {
+    loginModal.classList.remove('active');
+});
+
+document.getElementById('confirmLogin').addEventListener('click', function() {
+    var pwd = document.getElementById('passwordInput').value;
+    if (pwd === ADMIN_PASSWORD) {
+        isAdmin = true;
+        adminPanel.classList.add('active');
+        loginBtn.classList.add('hidden');
+        logoutBtn.classList.remove('hidden');
+        loginModal.classList.remove('active');
+        render();
+    } else {
+        alert('Неверный пароль');
+    }
+});
+
+logoutBtn.addEventListener('click', function() {
+    isAdmin = false;
+    adminPanel.classList.remove('active');
+    loginBtn.classList.remove('hidden');
+    logoutBtn.classList.add('hidden');
+    render();
+});
+
+daysNav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.day-btn');
+    if (!btn) return;
+    var all = document.querySelectorAll('.day-btn');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+    btn.classList.add('active');
+    currentDay = btn.getAttribute('data-day');
+    render();
+});
+
+groupSelect.addEventListener('change', function(e) {
+    currentGroup = e.target.value;
+    render();
+});
+
+fillGroupSelect();
+render();
+</script>
+</body>
+</html>
