@@ -30,8 +30,6 @@
         border-radius: 24px;
         border: 1px solid rgba(139,175,120,0.2);
     }
-
-    /* ---- ЗАГОЛОВКИ ---- */
     h1 {
         font-family: 'Playfair Display', serif;
         text-align: center;
@@ -50,14 +48,11 @@
         margin-bottom: 20px;
         font-weight: 500;
     }
-
-    /* ---- ВЕРХНЯЯ ПАНЕЛЬ ---- */
     .topbar {
         display: flex; justify-content: space-between; align-items: flex-start;
         gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
     }
     .topbar > div:first-child { flex: 1; min-width: 200px; }
-
     .admin-btn {
         padding: 11px 20px;
         background: #8baf78;
@@ -73,66 +68,35 @@
         box-shadow: 0 4px 14px rgba(139,175,120,0.35);
         transition: all 0.25s;
     }
-    .admin-btn:hover {
-        background: #7a9d67;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(139,175,120,0.5);
-    }
+    .admin-btn:hover { background: #7a9d67; transform: translateY(-2px); }
     .admin-btn.exit {
-        background: transparent;
-        color: #8baf78;
-        border: 1.5px solid #8baf78;
-        box-shadow: none;
+        background: transparent; color: #8baf78;
+        border: 1.5px solid #8baf78; box-shadow: none;
     }
-    .admin-btn.exit:hover {
-        background: rgba(139,175,120,0.1);
-    }
-
-    /* ---- КНОПКИ ДНЕЙ ---- */
     .days-nav {
         display: flex; gap: 8px; margin-bottom: 16px;
         overflow-x: auto; padding-bottom: 4px;
-        justify-content: flex-start;
     }
     .days-nav::-webkit-scrollbar { display: none; }
     .day-btn {
-        flex: 0 0 auto;
-        min-width: 52px;
-        padding: 10px 14px;
-        font-family: 'Inter', sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        background: #ffffff;
-        color: #7d9670;
-        border: 1.5px solid #d8e5cf;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.25s;
+        flex: 0 0 auto; min-width: 52px; padding: 10px 14px;
+        font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+        letter-spacing: 1px; text-transform: uppercase;
+        background: #ffffff; color: #7d9670;
+        border: 1.5px solid #d8e5cf; border-radius: 20px;
+        cursor: pointer; transition: all 0.25s;
     }
-    .day-btn:hover {
-        border-color: #8baf78;
-        color: #4a6b3d;
-        transform: translateY(-1px);
-    }
+    .day-btn:hover { border-color: #8baf78; color: #4a6b3d; }
     .day-btn.active {
-        background: #8baf78;
-        color: #ffffff;
-        border-color: #8baf78;
+        background: #8baf78; color: #ffffff; border-color: #8baf78;
         box-shadow: 0 4px 14px rgba(139,175,120,0.4);
     }
-
-    /* ---- ВЫБОР ГРУППЫ ---- */
     .controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
     label {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #7d9670;
+        font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+        text-transform: uppercase; color: #7d9670;
     }
-    select, input {
+    select, input, textarea {
         padding: 13px 16px;
         font-family: 'Inter', sans-serif;
         font-size: 15px;
@@ -145,21 +109,18 @@
         transition: all 0.25s;
         font-weight: 500;
     }
-    select:focus, input:focus {
+    textarea { resize: vertical; min-height: 120px; font-family: monospace; font-size: 13px; line-height: 1.6; }
+    select:focus, input:focus, textarea:focus {
         border-color: #8baf78;
         box-shadow: 0 0 0 4px rgba(139,175,120,0.15);
     }
     select {
         -webkit-appearance: none; appearance: none;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238baf78' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 14px center;
-        background-size: 16px;
-        padding-right: 42px;
-        cursor: pointer;
+        background-repeat: no-repeat; background-position: right 14px center;
+        background-size: 16px; padding-right: 42px; cursor: pointer;
     }
 
-    /* ---- МОБИЛЬНЫЕ КАРТОЧКИ ---- */
     .cards-list { display: block; }
     .lesson-card {
         background: #ffffff;
@@ -170,314 +131,218 @@
         box-shadow: 0 4px 20px rgba(74,107,61,0.06);
         transition: all 0.25s;
     }
-    .lesson-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 28px rgba(74,107,61,0.12);
-    }
+    .lesson-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(74,107,61,0.12); }
     .lesson-card .top {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        display: flex; align-items: center; gap: 10px;
         padding: 14px 16px;
         background: linear-gradient(135deg, #eaf3e4 0%, #f4f9f0 100%);
         border-bottom: 1px solid #e8f0e2;
     }
     .lesson-card .num-badge {
         font-family: 'Playfair Display', serif;
-        font-size: 24px;
-        font-weight: 700;
-        color: #8baf78;
-        min-width: 34px;
-        text-align: center;
-        line-height: 1;
+        font-size: 24px; font-weight: 700; color: #8baf78;
+        min-width: 34px; text-align: center; line-height: 1;
     }
     .lesson-card .cab-badge {
-        font-size: 11px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: #4a6b3d;
-        background: #ffffff;
-        border: 1px solid #d8e5cf;
-        padding: 4px 10px;
-        border-radius: 12px;
-        font-weight: 600;
-        white-space: nowrap;
+        font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+        color: #4a6b3d; background: #ffffff;
+        border: 1px solid #d8e5cf; padding: 4px 10px;
+        border-radius: 12px; font-weight: 600; white-space: nowrap;
     }
     .lesson-card .subject-title {
         font-family: 'Playfair Display', serif;
-        font-size: 16px;
-        font-weight: 600;
-        color: #4a6b3d;
-        flex: 1;
-        text-align: right;
-        word-break: break-word;
-        line-height: 1.25;
+        font-size: 16px; font-weight: 600; color: #4a6b3d;
+        flex: 1; text-align: right; word-break: break-word;
     }
     .lesson-card .body {
         padding: 14px 16px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px 16px;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px;
     }
     .lesson-card .field { display: flex; flex-direction: column; gap: 3px; }
     .lesson-card .lbl {
-        font-size: 10px;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #9daf93;
-        font-weight: 600;
+        font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+        color: #9daf93; font-weight: 600;
     }
     .lesson-card .val {
-        font-size: 14px;
-        font-weight: 600;
-        color: #2d3a26;
+        font-size: 14px; font-weight: 600; color: #2d3a26;
         word-break: break-word;
     }
-    .lesson-card .val.group {
-        color: #5d8a47;
-        font-weight: 700;
-    }
+    .lesson-card .val.group { color: #5d8a47; font-weight: 700; }
 
-    /* ---- ДЕСКТОПНАЯ ТАБЛИЦА ---- */
     .desktop-wrapper { display: none; }
     table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        background: #ffffff;
-        border-radius: 18px;
-        overflow: hidden;
+        width: 100%; border-collapse: separate; border-spacing: 0;
+        background: #ffffff; border-radius: 18px; overflow: hidden;
         box-shadow: 0 4px 20px rgba(74,107,61,0.08);
         border: 1px solid #e8f0e2;
     }
     th, td {
-        padding: 14px 12px;
-        text-align: left;
-        vertical-align: top;
-        font-size: 13px;
-        color: #2d3a26;
-        border-bottom: 1px solid #eff5ea;
+        padding: 14px 12px; text-align: left; vertical-align: top;
+        font-size: 13px; color: #2d3a26; border-bottom: 1px solid #eff5ea;
     }
     th {
         background: linear-gradient(135deg, #8baf78 0%, #7a9d67 100%);
-        color: #ffffff;
-        text-align: center;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        font-size: 11px;
-        border-bottom: none;
+        color: #ffffff; text-align: center; font-weight: 600;
+        letter-spacing: 1px; text-transform: uppercase;
+        font-size: 11px; border-bottom: none;
     }
     tr:last-child td { border-bottom: none; }
     tr:nth-child(even) td { background: #fafcf8; }
     tr:hover td { background: #f4f9f0; }
     .cab-cell {
-        font-family: 'Playfair Display', serif;
-        font-weight: 700;
-        text-align: center;
-        width: 70px;
-        color: #5d8a47;
-        font-size: 16px;
+        font-family: 'Playfair Display', serif; font-weight: 700;
+        text-align: center; width: 70px; color: #5d8a47; font-size: 16px;
     }
-    .prep-cell {
-        font-weight: 600;
-        width: 170px;
-        color: #4a6b3d;
-    }
-    .group-name {
-        font-weight: 700;
-        color: #5d8a47;
-        display: block;
-        margin-bottom: 3px;
-    }
+    .prep-cell { font-weight: 600; width: 170px; color: #4a6b3d; }
+    .group-name { font-weight: 700; color: #5d8a47; display: block; margin-bottom: 3px; }
     .subject { color: #7d9670; font-size: 12px; }
     .empty { color: #c5d4bb; font-style: italic; text-align: center; }
 
-    /* ---- АДМИНКА ---- */
     .admin-panel {
-        display: none;
-        background: #ffffff;
-        border: 2px dashed #b8d0a8;
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 20px;
+        display: none; background: #ffffff;
+        border: 2px dashed #b8d0a8; border-radius: 20px;
+        padding: 20px; margin-bottom: 20px;
         box-shadow: 0 4px 20px rgba(74,107,61,0.08);
     }
     .admin-panel.active { display: block; }
     .admin-panel h2 {
         font-family: 'Playfair Display', serif;
-        margin: 0 0 16px 0;
-        font-size: 18px;
-        color: #4a6b3d;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #e8f0e2;
+        margin: 0 0 16px 0; font-size: 18px; color: #4a6b3d;
+        padding-bottom: 10px; border-bottom: 1px solid #e8f0e2;
         font-weight: 600;
     }
     .admin-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
         margin-bottom: 14px;
     }
     .admin-grid label {
-        font-size: 11px;
-        color: #7d9670;
-        display: block;
-        margin-bottom: 5px;
+        font-size: 11px; color: #7d9670; display: block; margin-bottom: 5px;
     }
     .admin-grid input, .admin-grid select {
-        padding: 11px 14px;
-        font-size: 14px;
-        background: #fafcf8;
-        border: 1.5px solid #d8e5cf;
-        border-radius: 12px;
-        color: #2d3a26;
-    }
-    .admin-grid input:focus, .admin-grid select:focus {
-        background: #ffffff;
-        border-color: #8baf78;
+        padding: 11px 14px; font-size: 14px;
+        background: #fafcf8; border: 1.5px solid #d8e5cf;
+        border-radius: 12px; color: #2d3a26;
     }
     .admin-grid .full { grid-column: 1 / -1; }
     .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
     .btn {
-        padding: 12px 20px;
-        border: none;
-        border-radius: 20px;
-        font-family: 'Inter', sans-serif;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        cursor: pointer;
-        flex: 1 1 auto;
-        transition: all 0.25s;
+        padding: 12px 20px; border: none; border-radius: 20px;
+        font-family: 'Inter', sans-serif; font-size: 12px;
+        font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+        cursor: pointer; flex: 1 1 auto; transition: all 0.25s;
     }
     .btn-primary {
-        background: #8baf78;
-        color: #ffffff;
+        background: #8baf78; color: #ffffff;
         box-shadow: 0 4px 14px rgba(139,175,120,0.35);
     }
-    .btn-primary:hover {
-        background: #7a9d67;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(139,175,120,0.5);
+    .btn-primary:hover { background: #7a9d67; transform: translateY(-2px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: #ffffff; color: #5d8a47; border: 1.5px solid #8baf78; }
+    .btn-secondary:hover { background: #f4f9f0; }
+    .btn-warning { background: #ffffff; color: #8baf78; border: 1.5px solid #d8e5cf; }
+    .btn-warning:hover { background: #f4f9f0; border-color: #8baf78; }
+    .btn-danger { background: #ffffff; color: #c96a5a; border: 1.5px solid #f0c8c0; }
+    .btn-danger:hover { background: #fdf3f1; border-color: #c96a5a; }
+
+    /* OCR секция */
+    .ocr-section {
+        background: #f4f9f0;
+        border: 1px dashed #b8d0a8;
+        border-radius: 16px;
+        padding: 16px;
+        margin-bottom: 20px;
     }
-    .btn-secondary {
-        background: #ffffff;
+    .ocr-section h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px; color: #4a6b3d;
+        margin: 0 0 10px 0;
+    }
+    .ocr-hint {
+        font-size: 12px; color: #7d9670;
+        background: #ffffff; border-radius: 10px;
+        padding: 10px 12px; margin-bottom: 12px;
+        line-height: 1.6;
+    }
+    .ocr-hint code {
+        background: #eaf3e4; color: #4a6b3d;
+        padding: 2px 6px; border-radius: 5px;
+        font-size: 11px;
+    }
+    .ocr-preview {
+        max-width: 100%; border-radius: 12px;
+        margin: 10px 0; border: 1px solid #d8e5cf;
+        display: none;
+    }
+    .ocr-preview.active { display: block; }
+    .ocr-progress {
+        display: none;
+        margin: 10px 0;
+        font-size: 13px;
         color: #5d8a47;
-        border: 1.5px solid #8baf78;
+        font-weight: 600;
     }
-    .btn-secondary:hover {
-        background: #f4f9f0;
+    .ocr-progress.active { display: block; }
+    .progress-bar {
+        height: 6px; background: #e8f0e2; border-radius: 3px;
+        overflow: hidden; margin-top: 6px;
     }
-    .btn-warning {
-        background: #ffffff;
-        color: #8baf78;
-        border: 1.5px solid #d8e5cf;
-    }
-    .btn-warning:hover {
-        background: #f4f9f0;
-        border-color: #8baf78;
-    }
-    .btn-danger {
-        background: #ffffff;
-        color: #c96a5a;
-        border: 1.5px solid #f0c8c0;
-    }
-    .btn-danger:hover {
-        background: #fdf3f1;
-        border-color: #c96a5a;
+    .progress-bar-inner {
+        height: 100%; background: #8baf78; width: 0%;
+        transition: width 0.3s;
     }
 
     .edit-list { margin-top: 16px; }
     .edit-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 14px;
-        background: #fafcf8;
-        border: 1px solid #e8f0e2;
-        border-radius: 12px;
-        margin-bottom: 8px;
-        font-size: 13px;
-        gap: 10px;
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 14px; background: #fafcf8;
+        border: 1px solid #e8f0e2; border-radius: 12px;
+        margin-bottom: 8px; font-size: 13px; gap: 10px;
         color: #5d6b54;
-        transition: all 0.2s;
     }
-    .edit-item:hover {
-        background: #f4f9f0;
-        border-color: #d8e5cf;
-    }
+    .edit-item:hover { background: #f4f9f0; border-color: #d8e5cf; }
     .edit-item-info { flex: 1; line-height: 1.5; }
     .edit-item-info b { color: #4a6b3d; font-weight: 700; }
     .edit-item-del {
-        background: transparent;
-        color: #c96a5a;
-        border: 1.5px solid #f0c8c0;
-        border-radius: 12px;
-        padding: 7px 14px;
-        cursor: pointer;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        transition: all 0.2s;
+        background: transparent; color: #c96a5a;
+        border: 1.5px solid #f0c8c0; border-radius: 12px;
+        padding: 7px 14px; cursor: pointer; font-size: 11px;
+        font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
     }
-    .edit-item-del:hover {
-        background: #fdf3f1;
-        border-color: #c96a5a;
-    }
+    .edit-item-del:hover { background: #fdf3f1; border-color: #c96a5a; }
 
     .no-results {
-        text-align: center;
-        padding: 50px 20px;
-        color: #9daf93;
-        font-family: 'Playfair Display', serif;
-        font-size: 17px;
-        font-style: italic;
+        text-align: center; padding: 50px 20px;
+        color: #9daf93; font-family: 'Playfair Display', serif;
+        font-size: 17px; font-style: italic;
     }
     .hidden { display: none !important; }
 
-    /* ---- МОДАЛКА ---- */
     .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
+        display: none; position: fixed; inset: 0;
         background: rgba(45,58,38,0.5);
-        backdrop-filter: blur(6px);
-        z-index: 100;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
+        backdrop-filter: blur(6px); z-index: 100;
+        justify-content: center; align-items: center; padding: 20px;
     }
     .modal.active { display: flex; }
     .modal-box {
-        background: #ffffff;
-        border-radius: 24px;
-        padding: 28px;
-        max-width: 380px;
-        width: 100%;
+        background: #ffffff; border-radius: 24px;
+        padding: 28px; max-width: 380px; width: 100%;
         box-shadow: 0 20px 60px rgba(45,58,38,0.25);
         border: 1px solid #e8f0e2;
     }
     .modal-box h3 {
         font-family: 'Playfair Display', serif;
-        margin: 0 0 18px 0;
-        font-size: 20px;
-        color: #4a6b3d;
-        text-align: center;
-        font-weight: 600;
+        margin: 0 0 18px 0; font-size: 20px;
+        color: #4a6b3d; text-align: center; font-weight: 600;
     }
     .modal-box input { margin-bottom: 16px; }
     .modal-actions { display: flex; gap: 10px; }
     .modal-actions .btn { flex: 1; }
 
-    /* ---- ДЕСКТОП ---- */
     @media (min-width: 769px) {
         body { padding: 24px; }
         .container { padding: 32px; }
         h1 { font-size: 34px; }
-        .subtitle { font-size: 13px; }
         .cards-list { display: none; }
         .desktop-wrapper { display: block; }
         .days-nav { justify-content: center; overflow: visible; }
@@ -509,7 +374,7 @@
     </div>
 
     <div class="admin-panel" id="adminPanel">
-        <h2>Добавить занятие</h2>
+        <h2>Добавить занятие вручную</h2>
         <div class="admin-grid">
             <div>
                 <label>Номер пары</label>
@@ -539,13 +404,51 @@
         </div>
         <div class="admin-actions">
             <button class="btn btn-primary" id="addBtn" type="button">Добавить</button>
-            <button class="btn btn-warning" id="exportBtn" type="button">Экспорт</button>
-            <button class="btn btn-secondary" id="importBtn" type="button">Импорт</button>
-            <button class="btn btn-danger" id="clearBtn" type="button">Очистить</button>
-            <input type="file" id="importFile" accept=".json" style="display:none">
         </div>
+
+        <!-- ============ OCR СЕКЦИЯ ============ -->
+        <div class="ocr-section">
+            <h3>📷 Загрузить фото расписания</h3>
+            <div class="ocr-hint">
+                <b>Как пользоваться:</b><br>
+                1. Выберите <b>день недели</b> наверху (Пн / Вт / Ср…).<br>
+                2. Нажмите «Выбрать фото» и загрузите снимок таблицы.<br>
+                3. Подождите 10–30 секунд (распознавание).<br>
+                4. Проверьте текст и нажмите «Разобрать и добавить».<br><br>
+                <b>Формат (можно править):</b>
+                <code>пара | кабинет | преподаватель | группа | предмет</code><br>
+                Пример: <code>1 | 213 | Блинов А.В. | 6-ЛК-25 | ОТ</code>
+            </div>
+
+            <input type="file" id="ocrFile" accept="image/*" style="display:none">
+            <button class="btn btn-primary" id="ocrBtn" type="button">📷 Выбрать фото</button>
+
+            <img id="ocrPreview" class="ocr-preview" alt="Превью">
+
+            <div class="ocr-progress" id="ocrProgress">
+                <span id="ocrProgressText">Распознавание…</span>
+                <div class="progress-bar"><div class="progress-bar-inner" id="ocrProgressBar"></div></div>
+            </div>
+
+            <div id="ocrResultBlock" style="display:none; margin-top:14px;">
+                <label style="display:block; margin-bottom:6px;">Распознанный текст (проверьте и исправьте)</label>
+                <textarea id="ocrText" rows="10" placeholder="Здесь появится распознанный текст..."></textarea>
+                <div class="admin-actions">
+                    <button class="btn btn-primary" id="ocrParseBtn" type="button">✓ Разобрать и добавить</button>
+                    <button class="btn btn-danger" id="ocrClearBtn" type="button">Отмена</button>
+                </div>
+            </div>
+        </div>
+
         <h2 style="margin-top:22px;">Занятия на день</h2>
         <div class="edit-list" id="editList"></div>
+
+        <div class="admin-actions" style="margin-top:20px; border-top:1px solid #e8f0e2; padding-top:16px;">
+            <button class="btn btn-warning" id="exportBtn" type="button">Экспорт</button>
+            <button class="btn btn-secondary" id="importBtn" type="button">Импорт</button>
+            <button class="btn btn-danger" id="clearBtn" type="button">Очистить день</button>
+            <input type="file" id="importFile" accept=".json" style="display:none">
+        </div>
     </div>
 
     <div class="controls">
@@ -586,6 +489,9 @@
         </div>
     </div>
 </div>
+
+<!-- Tesseract.js — библиотека OCR (работает в браузере) -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <script>
 var ADMIN_PASSWORD = 'admin123';
@@ -761,14 +667,12 @@ function fillGroupSelect() {
     groupSelect.innerHTML = '<option value="all">Все группы</option>';
     getAllGroups().forEach(function(g) {
         var o = document.createElement('option');
-        o.value = g;
-        o.textContent = g;
+        o.value = g; o.textContent = g;
         groupSelect.appendChild(o);
     });
     for (var i = 0; i < groupSelect.options.length; i++) {
         if (groupSelect.options[i].value === current) {
-            groupSelect.value = current;
-            break;
+            groupSelect.value = current; break;
         }
     }
 }
@@ -786,11 +690,8 @@ function render() {
             if (!lesson) return;
             if (currentGroup !== 'all' && lesson.group !== currentGroup) return;
             allLessons.push({
-                para: i + 1,
-                cab: row.cab,
-                prep: row.prep,
-                group: lesson.group,
-                subject: lesson.subject
+                para: i + 1, cab: row.cab, prep: row.prep,
+                group: lesson.group, subject: lesson.subject
             });
         });
     });
@@ -884,6 +785,28 @@ function renderEditList() {
     }
 }
 
+/* ============================================================
+   ДОБАВИТЬ ОДНУ ПАРУ В РАСПИСАНИЕ (универсальная функция)
+   ============================================================ */
+function addLessonToSchedule(para, cab, prep, group, subject) {
+    if (!schedule[currentDay]) schedule[currentDay] = [];
+    var dayData = schedule[currentDay];
+    var row = null;
+    for (var i = 0; i < dayData.length; i++) {
+        if (dayData[i].cab === cab && dayData[i].prep === prep) {
+            row = dayData[i]; break;
+        }
+    }
+    if (!row) {
+        row = { cab: cab, prep: prep, lessons: [null, null, null, null] };
+        dayData.push(row);
+    }
+    row.lessons[para] = { group: group, subject: subject };
+}
+
+/* ============================================================
+   РУЧНОЕ ДОБАВЛЕНИЕ
+   ============================================================ */
 document.getElementById('addBtn').addEventListener('click', function() {
     var para = parseInt(document.getElementById('inpPara').value, 10);
     var cab = document.getElementById('inpCab').value.trim();
@@ -892,35 +815,190 @@ document.getElementById('addBtn').addEventListener('click', function() {
     var prep = document.getElementById('inpPrep').value.trim();
 
     if (!cab || !subject || !group || !prep) {
-        alert('Заполните все поля');
-        return;
+        alert('Заполните все поля'); return;
     }
-
-    if (!schedule[currentDay]) schedule[currentDay] = [];
-    var dayData = schedule[currentDay];
-
-    var row = null;
-    for (var i = 0; i < dayData.length; i++) {
-        if (dayData[i].cab === cab && dayData[i].prep === prep) {
-            row = dayData[i];
-            break;
-        }
-    }
-    if (!row) {
-        row = { cab: cab, prep: prep, lessons: [null, null, null, null] };
-        dayData.push(row);
-    }
-    row.lessons[para] = { group: group, subject: subject };
-
-    saveData(schedule);
-    render();
-    fillGroupSelect();
-
+    addLessonToSchedule(para, cab, prep, group, subject);
+    saveData(schedule); render(); fillGroupSelect();
     document.getElementById('inpSubject').value = '';
     document.getElementById('inpGroup').value = '';
     document.getElementById('inpCab').focus();
 });
 
+/* ============================================================
+   OCR — РАСПОЗНАВАНИЕ ФОТО
+   ============================================================ */
+var ocrBtn = document.getElementById('ocrBtn');
+var ocrFile = document.getElementById('ocrFile');
+var ocrPreview = document.getElementById('ocrPreview');
+var ocrProgress = document.getElementById('ocrProgress');
+var ocrProgressText = document.getElementById('ocrProgressText');
+var ocrProgressBar = document.getElementById('ocrProgressBar');
+var ocrResultBlock = document.getElementById('ocrResultBlock');
+var ocrText = document.getElementById('ocrText');
+var ocrParseBtn = document.getElementById('ocrParseBtn');
+var ocrClearBtn = document.getElementById('ocrClearBtn');
+
+ocrBtn.addEventListener('click', function() { ocrFile.click(); });
+
+ocrFile.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+
+    // Превью
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+        ocrPreview.src = ev.target.result;
+        ocrPreview.classList.add('active');
+    };
+    reader.readAsDataURL(file);
+
+    // Запуск OCR
+    ocrProgress.classList.add('active');
+    ocrProgressText.textContent = 'Загрузка модели OCR…';
+    ocrProgressBar.style.width = '0%';
+    ocrResultBlock.style.display = 'none';
+    ocrBtn.disabled = true;
+    ocrBtn.textContent = '⏳ Распознавание…';
+
+    Tesseract.recognize(
+        file,
+        'rus+eng',
+        {
+            logger: function(m) {
+                if (m.status === 'recognizing text') {
+                    var p = Math.round(m.progress * 100);
+                    ocrProgressBar.style.width = p + '%';
+                    ocrProgressText.textContent = 'Распознавание… ' + p + '%';
+                } else if (m.status === 'loading tesseract core') {
+                    ocrProgressText.textContent = 'Загрузка ядра OCR…';
+                } else if (m.status === 'loading language traineddata') {
+                    ocrProgressText.textContent = 'Загрузка языковой модели (русский)…';
+                } else if (m.status === 'initializing api') {
+                    ocrProgressText.textContent = 'Инициализация…';
+                }
+            }
+        }
+    ).then(function(result) {
+        var text = result.data.text || '';
+        text = text.replace(/[ \t]+/g, ' ').replace(/\n{2,}/g, '\n').trim();
+        ocrText.value = text;
+        ocrResultBlock.style.display = 'block';
+        ocrProgress.classList.remove('active');
+        ocrBtn.disabled = false;
+        ocrBtn.textContent = '📷 Выбрать другое фото';
+    }).catch(function(err) {
+        alert('Ошибка распознавания: ' + err.message);
+        ocrProgress.classList.remove('active');
+        ocrBtn.disabled = false;
+        ocrBtn.textContent = '📷 Выбрать фото';
+    });
+});
+
+ocrClearBtn.addEventListener('click', function() {
+    ocrResultBlock.style.display = 'none';
+    ocrPreview.classList.remove('active');
+    ocrFile.value = '';
+    ocrBtn.textContent = '📷 Выбрать фото';
+});
+
+/* ============================================================
+   ПАРСЕР СТРОК "пара | кабинет | преподаватель | группа | предмет"
+   ============================================================ */
+ocrParseBtn.addEventListener('click', function() {
+    var raw = ocrText.value;
+    if (!raw.trim()) { alert('Текст пуст'); return; }
+
+    // Разбиваем на строки, убираем пустые
+    var lines = raw.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l; });
+
+    var added = 0;
+    var errors = [];
+
+    // Регулярка для группы: 1-3 цифры - 2-4 буквы - 2-3 цифры
+    var groupRegex = /(\d{1,3}-[А-ЯЁA-Z]{2,4}-\d{2,3})/i;
+    // Регулярка для кабинета: 2-4 цифры + опциональная буква
+    var cabRegex = /^\s*(\d{2,4}[А-Яа-яA-Za-z]?)\s*$/;
+
+    lines.forEach(function(line) {
+        // Пробуем формат с разделителем |
+        var parts = line.split('|').map(function(p) { return p.trim(); });
+
+        var para = null, cab = null, prep = null, group = null, subject = null;
+
+        if (parts.length >= 5) {
+            para = parseInt(parts[0], 10);
+            cab = parts[1];
+            prep = parts[2];
+            group = parts[3];
+            subject = parts.slice(4).join(' ').trim();
+        } else {
+            // Пытаемся разобрать строку без разделителей
+            var gMatch = line.match(groupRegex);
+            if (gMatch) group = gMatch[1];
+
+            var rest = line;
+            if (group) rest = rest.replace(group, ' ');
+
+            // Номер пары — первое число в начале
+            var paraMatch = rest.match(/^\s*(\d)\s+/);
+            if (paraMatch) {
+                para = parseInt(paraMatch[1], 10);
+                rest = rest.replace(paraMatch[0], ' ');
+            }
+
+            // Кабинет — 2-4 цифры
+            var cMatch = rest.match(/(?:каб\.?\s*)?(\d{2,4}[А-Яа-яA-Za-z]?)/);
+            if (cMatch) {
+                cab = cMatch[1];
+                rest = rest.replace(cMatch[0], ' ');
+            }
+
+            // ФИО
+            var pMatch = rest.match(/([А-ЯЁ][а-яё]+\s+[А-ЯЁ]\.\s*[А-ЯЁ]\.?)/);
+            if (pMatch) {
+                prep = pMatch[1].trim();
+                rest = rest.replace(pMatch[1], ' ');
+            }
+
+            subject = rest.replace(/[|,;]+/g, ' ').replace(/\s+/g, ' ').trim();
+        }
+
+        if (!para || para < 1 || para > 4) { errors.push('Нет номера пары: ' + line); return; }
+        if (!cab) { errors.push('Нет кабинета: ' + line); return; }
+        if (!prep) { errors.push('Нет преподавателя: ' + line); return; }
+        if (!group) { errors.push('Нет группы: ' + line); return; }
+        if (!subject) { errors.push('Нет предмета: ' + line); return; }
+
+        addLessonToSchedule(para - 1, cab, prep, group, subject);
+        added++;
+    });
+
+    if (added === 0) {
+        alert('Ничего не удалось распознать.\n\nПроверьте формат:\nпара | кабинет | преподаватель | группа | предмет\n\nПример:\n1 | 213 | Блинов А.В. | 6-ЛК-25 | ОТ');
+        return;
+    }
+
+    saveData(schedule);
+    render();
+    fillGroupSelect();
+
+    var msg = '✅ Добавлено занятий: ' + added;
+    if (errors.length > 0) {
+        msg += '\n\n⚠️ Не разобрано: ' + errors.length + ' строк\n';
+        msg += errors.slice(0, 5).join('\n');
+        if (errors.length > 5) msg += '\n...и ещё ' + (errors.length - 5);
+    }
+    alert(msg);
+
+    ocrResultBlock.style.display = 'none';
+    ocrPreview.classList.remove('active');
+    ocrFile.value = '';
+    ocrBtn.textContent = '📷 Выбрать фото';
+});
+
+/* ============================================================
+   ЭКСПОРТ / ИМПОРТ / ОЧИСТКА
+   ============================================================ */
 document.getElementById('exportBtn').addEventListener('click', function() {
     var blob = new Blob([JSON.stringify(schedule, null, 2)], { type: 'application/json' });
     var a = document.createElement('a');
@@ -934,8 +1012,7 @@ document.getElementById('importBtn').addEventListener('click', function() {
 });
 
 document.getElementById('importFile').addEventListener('change', function(e) {
-    var file = e.target.files[0];
-    if (!file) return;
+    var file = e.target.files[0]; if (!file) return;
     var reader = new FileReader();
     reader.onload = function(ev) {
         try {
@@ -959,6 +1036,9 @@ document.getElementById('clearBtn').addEventListener('click', function() {
     }
 });
 
+/* ============================================================
+   АВТОРИЗАЦИЯ
+   ============================================================ */
 loginBtn.addEventListener('click', function() {
     loginModal.classList.add('active');
     document.getElementById('passwordInput').value = '';
@@ -978,9 +1058,7 @@ document.getElementById('confirmLogin').addEventListener('click', function() {
         logoutBtn.classList.remove('hidden');
         loginModal.classList.remove('active');
         render();
-    } else {
-        alert('Неверный пароль');
-    }
+    } else { alert('Неверный пароль'); }
 });
 
 logoutBtn.addEventListener('click', function() {
@@ -991,9 +1069,11 @@ logoutBtn.addEventListener('click', function() {
     render();
 });
 
+/* ============================================================
+   СОБЫТИЯ
+   ============================================================ */
 daysNav.addEventListener('click', function(e) {
-    var btn = e.target.closest('.day-btn');
-    if (!btn) return;
+    var btn = e.target.closest('.day-btn'); if (!btn) return;
     var all = document.querySelectorAll('.day-btn');
     for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
     btn.classList.add('active');
